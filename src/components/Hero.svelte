@@ -1,8 +1,19 @@
+<script>
+	import sanityClient from '../lib/client';
+
+	// const data = sanityClient.fetch( *[ _type == 'hero-section'] {
+	// 	title
+	// })
+	console.log('test');
+	// console.log({data})
+</script>
+
 <section>
 	<div class="hero">
 		<div>
 			<!-- hero-text-box -->
 			<h1>A healthy meal delivered to your door, every single day</h1>
+			<!-- <h1>A healthy meal delivered to your door, every single day</h1> -->
 			<p>
 				The smart 365-days-per-year food subscription that will make you eat healthy again. Tailored
 				to your personal tastes and nutritional needs. We have delivered 250,000+ meals last year!
