@@ -1,18 +1,42 @@
-<script>
-	import sanityClient from '../lib/client';
+<script context="module" lang="ts">
+	import { client } from '../lib/SanityClient';
 
-	// const data = sanityClient.fetch( *[ _type == 'hero-section'] {
-	// 	title
-	// })
-	console.log('test');
-	// console.log({data})
+	export async function preload() {
+		const query = "*[_type == 'heroSection']";
+
+		const res = await client.fetch(query);
+
+		// console.log(res);
+		console.log(res);
+
+		return { res };
+	}
 </script>
+
+<!--
+	export async function preload() {
+		const query = "*[_type == 'post']{_id, slug, title}";
+		const posts = await client.fetch(query);
+		return { posts };
+	}
+</script>
+
+
+<script lang="ts">
+	type Slug = {
+		_type: string,
+		current: string,
+	}
+	
+	export let posts: { slug: Slug; title: string }[] = [];
+</script>
+-->
 
 <section>
 	<div class="hero">
 		<div>
 			<!-- hero-text-box -->
-			<h1>A healthy meal delivered to your door, every single day</h1>
+			<h1>test</h1>
 			<!-- <h1>A healthy meal delivered to your door, every single day</h1> -->
 			<p>
 				The smart 365-days-per-year food subscription that will make you eat healthy again. Tailored

@@ -16,7 +16,7 @@ export default createSchema({
         title: "Hero Section",
         
         // The identifier for this document type used in the api's
-        name: "hero-section",
+        name: "heroSection",
         
         // Documents have the type 'document'. Your schema may describe types beyond documents
         // but let's get back to that later.
@@ -30,7 +30,7 @@ export default createSchema({
             title: "Hero Title",
   
             // The identifier for this field used in the api's
-            name: "herotitle",
+            name: "heroTitle",
   
             // The type of this field
             type: "string",
