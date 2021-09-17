@@ -39,7 +39,7 @@ export default createSchema({
             title: "Hero description",
   
             // The identifier for this field used in the api's
-            name: "herodescription",
+            name: "heroDescription",
   
             // The type of this field
             type: "string",

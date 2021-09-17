@@ -14,7 +14,8 @@ type Client = {
 // this is how you connect your front-end to your sanity studio
 const options: Client = {
 	//your project ID
-	projectId: 'xkm5mf7o',
+	// projectId: 'xkm5mf7o',
+	projectId: 'gq9jzuhz', // todont list content
 	//your dataset; defaults to production
 	dataset: 'production',
 	apiVersion: '2021-09-10',

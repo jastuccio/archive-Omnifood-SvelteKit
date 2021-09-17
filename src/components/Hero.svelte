@@ -1,36 +1,35 @@
-<script context="module" lang="ts">
-	import { client } from '../lib/SanityClient';
-
-	export async function preload() {
-		const query = "*[_type == 'heroSection']";
-
-		const res = await client.fetch(query);
-
-		// console.log(res);
-		console.log(res);
-
-		return { res };
-	}
-</script>
-
-<!--
-	export async function preload() {
-		const query = "*[_type == 'post']{_id, slug, title}";
-		const posts = await client.fetch(query);
-		return { posts };
-	}
-</script>
-
-
+<!-- TODO: move const sanity to lib/sanityClient.toString -->
 <script lang="ts">
-	type Slug = {
-		_type: string,
-		current: string,
+	import { onMount } from 'svelte';
+	import sanityClient from '@sanity/client';
+
+	import type { Inaction } from './types/Inaction';
+	import InactionCard from './InactionCard.svelte';
+
+	// Create a client to connect to the Sanity datastore.
+	const sanity = sanityClient({
+		apiVersion: 'v2021-09-16',
+		projectId: 'gq9jzuhz',
+		dataset: 'production',
+		useCdn: false
+	});
+
+	// Initialize our inactions as an empty array.
+	let inactions: Inaction[] = [];
+
+	// Fetch the inactions from Sanity, and replace the array.
+
+	// export // do I need export?
+
+	export async function fetchInactions() {
+		const query = '*[_type == "inaction"]{ _id, title, notes, dueDate }';
+		inactions = await sanity.fetch(query);
+		// console.log(result); const query = '*[_type == "heroSection"]{_id, heroTitle, heroDescription}';
 	}
-	
-	export let posts: { slug: Slug; title: string }[] = [];
+
+	// Run the fetch function when the component is ready (mounted).
+	onMount(fetchInactions);
 </script>
--->
 
 <section>
 	<div class="hero">
@@ -38,10 +37,7 @@
 			<!-- hero-text-box -->
 			<h1>test</h1>
 			<!-- <h1>A healthy meal delivered to your door, every single day</h1> -->
-			<p>
-				The smart 365-days-per-year food subscription that will make you eat healthy again. Tailored
-				to your personal tastes and nutritional needs. We have delivered 250,000+ meals last year!
-			</p>
+			<!-- <p>{title}</p> -->
 			<a href="#" class="btn--full margin-right-sm">Start eating well</a>
 			<a href="#" class="btn--outline">Learn more &darr;</a>
 		</div>
@@ -53,6 +49,15 @@
 			/>
 		</div>
 	</div>
+
+	<h1>To Don't List</h1>
+	<p class="intro">things I'm not going to do:</p>
+
+	<!-- <p>{inactions}</p> -->
+
+	{#each inactions as inaction}
+		<InactionCard title={inaction.title} dueDate={inaction.dueDate} notes={inaction.notes} />
+	{/each}
 </section>
 
 <style>
