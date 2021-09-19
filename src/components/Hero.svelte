@@ -1,43 +1,40 @@
 <!-- TODO: move const sanity to lib/sanityClient.toString -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import sanityClient from '@sanity/client';
+	import { client } from '$lib/SanityClient';
 
-	import type { Inaction } from './types/Inaction';
-	import InactionCard from './InactionCard.svelte';
+	import type { Content } from './types/Content';
+	let content: Content[] = [];
+	// ? convert Content to an array here?
 
-	// Create a client to connect to the Sanity datastore.
-	const sanity = sanityClient({
-		apiVersion: 'v2021-09-16',
-		projectId: 'gq9jzuhz',
-		dataset: 'production',
-		useCdn: false
-	});
+	//? export... do I need export?
+	// export async function fetchContent() {
+	async function fetchContent() {
+		const query = '*[_type == "heroSection"]{_id, heroTitle, heroDescription}';
+		content = await client.fetch(query);
 
-	// Initialize our inactions as an empty array.
-	let inactions: Inaction[] = [];
+		// ? Object destructuring here?? const { property } = object
 
-	// Fetch the inactions from Sanity, and replace the array.
-
-	// export // do I need export?
-
-	export async function fetchInactions() {
-		const query = '*[_type == "inaction"]{ _id, title, notes, dueDate }';
-		inactions = await sanity.fetch(query);
-		// console.log(result); const query = '*[_type == "heroSection"]{_id, heroTitle, heroDescription}';
+		console.log('fetchContent ->');
+		console.log(typeof content);
+		// console.log(content['hero Title']);
+		console.log(content);
 	}
-
 	// Run the fetch function when the component is ready (mounted).
-	onMount(fetchInactions);
+	onMount(fetchContent);
 </script>
 
 <section>
 	<div class="hero">
 		<div>
 			<!-- hero-text-box -->
-			<h1>test</h1>
-			<!-- <h1>A healthy meal delivered to your door, every single day</h1> -->
-			<!-- <p>{title}</p> -->
+			{#each content as item}
+				<h1>
+					{item.heroTitle}
+				</h1>
+				<p>{item.heroDescription}</p>
+			{/each}
+
 			<a href="#" class="btn--full margin-right-sm">Start eating well</a>
 			<a href="#" class="btn--outline">Learn more &darr;</a>
 		</div>
@@ -49,15 +46,6 @@
 			/>
 		</div>
 	</div>
-
-	<h1>To Don't List</h1>
-	<p class="intro">things I'm not going to do:</p>
-
-	<!-- <p>{inactions}</p> -->
-
-	{#each inactions as inaction}
-		<InactionCard title={inaction.title} dueDate={inaction.dueDate} notes={inaction.notes} />
-	{/each}
 </section>
 
 <style>
