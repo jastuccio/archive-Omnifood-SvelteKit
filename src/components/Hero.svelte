@@ -4,11 +4,10 @@
 	import { client } from '$lib/SanityClient';
 
 	import type { Content } from './types/Content';
-	let content: Content[] = [];
 	// ? convert Content to an array here?
+	let content: Content[] = [];
+	// let title, description;
 
-	//? export... do I need export?
-	// export async function fetchContent() {
 	async function fetchContent() {
 		const query = '*[_type == "heroSection"]{_id, heroTitle, heroDescription}';
 		content = await client.fetch(query);
@@ -19,6 +18,12 @@
 		console.log(typeof content);
 		// console.log(content['hero Title']);
 		console.log(content);
+
+		content.forEach(function (item) {
+			console.log(`heroTitle: ${item.heroTitle}`);
+			let title = item.heroTitle;
+			console.log(`title: ${title}`);
+		});
 	}
 	// Run the fetch function when the component is ready (mounted).
 	onMount(fetchContent);
@@ -27,14 +32,7 @@
 <section>
 	<div class="hero">
 		<div>
-			<!-- hero-text-box -->
-			{#each content as item}
-				<h1>
-					{item.heroTitle}
-				</h1>
-				<p>{item.heroDescription}</p>
-			{/each}
-
+			<!-- <h1>{title}</h1> -->
 			<a href="#" class="btn--full margin-right-sm">Start eating well</a>
 			<a href="#" class="btn--outline">Learn more &darr;</a>
 		</div>
